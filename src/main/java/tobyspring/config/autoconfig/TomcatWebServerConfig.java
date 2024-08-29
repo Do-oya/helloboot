@@ -7,20 +7,15 @@ import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.type.AnnotatedTypeMetadata;
+import org.springframework.util.ClassUtils;
+import tobyspring.config.ConditionallMyOnClass;
 import tobyspring.config.MyAutoConfiguration;
 
 @MyAutoConfiguration
-@Conditional(TomcatWebServerConfig.TomcatCondition.class)
+@ConditionallMyOnClass("org.apache.catalina.startup.Tomcat")
 public class TomcatWebServerConfig {
     @Bean("tomcatWebServerFactory")
     public ServletWebServerFactory servletWebServerFactory() {
         return new TomcatServletWebServerFactory();
-    }
-
-    public static class TomcatCondition implements Condition {
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return true;
-        }
     }
 }
